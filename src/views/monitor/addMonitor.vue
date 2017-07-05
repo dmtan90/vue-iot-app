@@ -7,7 +7,7 @@
 			</router-link>
 		</mu-appbar>
 		<div class="page-part">
-			<mu-text-field label="设备名称" hintText="请输入设备名称" v-model="deviceinfo.device_name"></mu-text-field></br>
+			<mu-text-field label="监控数据名称" hintText="请输入监控数据名称" v-model="deviceinfo.device_name"></mu-text-field></br>
 			<mu-text-field label="设备序列号" hintText="请输入设备序列号" v-model="deviceinfo.serial"></mu-text-field></br>
 			<mu-text-field label="设备密码" hintText="请输入设备密码" type="password" v-model="deviceinfo.password"></mu-text-field></br>
 			<mu-select-field class='select' v-model="deviceGroup" label="请选择设备组">

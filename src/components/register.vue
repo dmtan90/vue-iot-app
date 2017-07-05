@@ -26,11 +26,16 @@
       </mu-select-field>
     </div>
     <mu-raised-button label="提交注册信息" class="demo-raised-button" primary  @click="userRegister"/><br/><br/><br/>
+    <mu-dialog :open="alertDialog" v-if="alertDialog" :showHide="alertDialog" title="提示">
+      <p>{{ alertText }}</p>
+    <mu-flat-button label="确定" slot="actions" primary @click="closeAlert"/>
+  </mu-dialog>
   </div>
 </template>
 
 <script>
 import { regions } from '@/utils/region'
+import { checkUserName, checkEmail, checkPhoneNum } from '@/utils/validate'
 export default {
   name: 'register',
   data () {
@@ -48,7 +53,9 @@ export default {
       retypePwd: '',
       country: 0,
       countryList: ['中国'],
-      province: 0
+      province: 0,
+      alertDialog: false,
+      alertText: ''
     }
   },
   computed: {
@@ -57,9 +64,38 @@ export default {
     }
   },
   methods: {
+    checkUserInput() {
+      if(!checkUserName(this.userinfo.name)) {
+        this.alertText = '请输入正确的用户名';
+        return;
+      }
+      if(this.userinfo.password.length < 6) {
+        this.alertText = '密码不能小于6位';
+        return
+      }
+      if(this.userinfo.password != this.retypePwd) {
+        this.alertText = '两次输入的密码不一致,请重新输入';
+        return;
+      }
+      if(!checkPhoneNum(this.userinfo.tel)) {
+        this.alertText = '请输入合法的手机号码';
+        return;
+      }
+      if(!checkEmail(this.userinfo.email)) {
+        this.alertText = '请输入合法的邮箱地址';
+        return;
+      }
+      return true;
+    },
     userRegister() {
       this.userinfo.country = this.countryList[this.country];
       this.userinfo.province = regions[this.province].name;
+      
+      if(!this.checkUserInput()) {
+        this.alertDialog = true;
+        return;
+      }
+      
       console.log(this.userinfo);
       this.$store.dispatch('userRegister', this.userinfo).then(() => {
         console.log('注册成功！请登录');
@@ -75,6 +111,9 @@ export default {
     provinceChange(val) {
       this.userinfo.province = regions[val].name;
       console.log(this.userinfo.province);
+    },
+    closeAlert() {
+      this.alertDialog = false;
     }
   }
 }

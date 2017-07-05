@@ -20,7 +20,7 @@
         	</mu-thead>
         	<mu-tbody id='sortable'>
         		<mu-tr v-for='item,index in tableData' :key='index'>
-        			<mu-td><p style='color: green'> {{item.monitor}} </p><p class="small"> {{item.device_name}} </p></mu-td>
+        			<mu-td class='drag-handler'><p style='color: green'> {{item.monitor}} </p><p class="small"> {{item.device_name}} </p></mu-td>
         			<mu-td><mu-switch v-model="item.flag" class="demo-switch" /></mu-td>
         			<mu-td> {{item.unit}} </mu-td>
         			<mu-td class='last'>
@@ -96,7 +96,7 @@ export default {
 		setSort() {
 			const el = document.getElementById('sortable');
 			this.sortable = Sortable.create(el, {
-				// handle: '.drag-handler',
+				handle: '.drag-handler',
 				onEnd: evt => {
 					console.log('oldIndex: ' + evt.oldIndex + '; newIndex: ' + evt.newIndex);
 					const tempIndex = this.newList.splice(evt.oldIndex, 1)[0];

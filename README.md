@@ -1,3 +1,7 @@
+## 技术栈
+vue2 + vur router + vuex + axios + webpack
+
+
 # iotapp
 
 > iotapp

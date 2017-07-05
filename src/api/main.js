@@ -31,7 +31,7 @@ export function login(userType, name, password) {
 //获取用户信息
 export function getUserinfo() {
 	return axios({
-		url: 'v1/user_information',
+		url: '/v1/user_information',
 		method: 'get'
 	})
 

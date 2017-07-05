@@ -28,6 +28,13 @@ export default {
       }
     }
   },
+  computed: {
+    userinfo() {
+      return {
+        name: this.$store.state.user.name
+      }
+    }
+  },
   methods: {
     userlogin() {
       console.log('用户名：' + this.userinfo.name);
