@@ -77,10 +77,10 @@ const user = {
 					console.log(response);
 					const data = response.data;
 					console.log(response.data);
-					Cookies.set('name', userinfo.name, { expires: 365 });
+					Cookies.set('username', userinfo.name, { expires: 365 });
 					Cookies.set('password', userinfo.password, { expires: 365 });
 					Cookies.set('usertype', userinfo.userType, { expires: 365 });
-					const token = 'username=' + Cookies.get('name') + ';password=' + Cookies.get('password') + ';usertype=' + Cookies.get('usertype');
+					const token = 'username=' + Cookies.get('username') + ';password=' + Cookies.get('password') + ';usertype=' + Cookies.get('usertype');
 					console.log(token);
 					commit('SET_USERNAME', userinfo.name);
 					commit('SET_TOKEN', token);

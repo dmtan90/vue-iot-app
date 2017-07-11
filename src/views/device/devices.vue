@@ -12,17 +12,9 @@
         	</mu-menu>
         </mu-popover>
         <mu-list vlaue='selected'>
-        	<mu-list-item title="收藏列表" titleClass='title' solt='left' toggleNested>
-        		<mu-list-item slot="nested" title="Starred">
-        		</mu-list-item>
-        	</mu-list-item>
-        	<mu-list-item title="好友分享列表" toggleNested>
-        		<mu-list-item slot="nested" title="Starred" vlaue='selected'>
-        		</mu-list-item>
-        	</mu-list-item>
-        	<mu-list-item title="我的设备" toggleNested>
-        		<mu-list-item slot="nested" title="Starred">
-              		</mu-list-item>
+        	<mu-list-item title="我的设备" :open='false' toggleNested>
+        		<!--<mu-list-item slot="nested" title="Starred"></mu-list-item>-->
+        		<mu-list-item  v-for='item in deviceList' :key='item.deviceAlias' :title='item.deviceName' slot='nested'></mu-list-item>
         	</mu-list-item>
         </mu-list>
         <!-- add device group dialog -->
@@ -52,8 +44,17 @@ export default {
 			group_name: '',
 		}
 	},
+	created () {
+		this.$store.dispatch('getDevices')
+		//this.fetchData();
+	},
 	mounted () {
 		this.trigger = this.$refs.button.$el;
+	},
+	computed: {
+		deviceList() {
+			return this.$store.state.devices.deviceList;
+		}
 	},
 	methods: {
 		toggle () {

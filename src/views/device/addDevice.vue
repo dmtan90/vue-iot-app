@@ -28,7 +28,7 @@ export default {
 				password: ''
 			},
 			deviceGroup: 0,
-			list: ['我的设备', '上海设备', '北京设备']
+			list: ['我的设备']
 		}
 	},
 	mounted () {
@@ -40,7 +40,7 @@ export default {
 			//this.$router.push({ path: '/devices' });
 		},*/
 		addDevice() {
-			console.log(deviceinfo);
+			console.log(this.deviceinfo);
 			this.$store.dispatch('addDevice', this.deviceinfo).then(() => {
 				console.log('添加设备成功！');
 				this.$router.push({ path: '/devices' });

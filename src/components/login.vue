@@ -12,6 +12,10 @@
       <router-link to='/register'>注册账号</router-link>
       <router-link to='getpwd'>忘记密码</router-link>
     </div>
+    <mu-dialog :open="alertDialog" v-if="alertDialog" :showHide="alertDialog" title="提示">
+      <p>{{ alertText }}</p>
+      <mu-flat-button label="确定" slot="actions" primary @click="closeAlert"/>
+    </mu-dialog>
   </div>
 </template>
 
@@ -23,28 +27,37 @@ export default {
       userinfo: {
         userType: 'producter',
         name: '',
-        password: '',
-        
-      }
+        password: ''
+      },
+      alertDialog: false,
+      alertText: ''
     }
   },
   computed: {
-    userinfo() {
+    /*userinfo() {
       return {
         name: this.$store.state.user.name
       }
-    }
+    }*/
   },
   methods: {
     userlogin() {
       console.log('用户名：' + this.userinfo.name);
       console.log('密码：' + this.userinfo.password);
+      if(this.userinfo.password.length <= 0) {
+        this.alertDialog = true;
+        this.alertText = '密码不能为空';
+        return
+      }
       this.$store.dispatch('userLogin', this.userinfo).then(() => {
         console.log('登录成功！');
         this.$router.push({ path: '/monitor' });
       }).catch(err => {
         console.log('登录失败！');
       });
+    },
+    closeAlert() {
+      this.alertDialog = false;
     }
   }
 }

@@ -47,10 +47,11 @@ export function logout() {
 
 /* 获取用户所有设备列表 */
 //注册设备
-export function addDevices() {
+export function addDevice(data) {
 	return axios({
 		url: '/v1/register_devices',
-		method: 'post'
+		method: 'post',
+		data
 	})
 }
 

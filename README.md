@@ -1,10 +1,11 @@
-## 技术栈
-vue2 + vur router + vuex + axios + webpack
-
 
 # iotapp
 
 > iotapp
+
+## 技术栈
+
+vue2 + vue router + vuex + axios + webpack
 
 ## Build Setup
 

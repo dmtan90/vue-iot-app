@@ -35,18 +35,17 @@
 		</ul>
 		<br/>
 		<mu-raised-button label="退出登录" class="demo-raised-button" primary  @click="showlogout"/>
-		<!-- UI库有bug:https://github.com/museui/muse-ui/issues/602 暂时先用dialog实现
 		<mu-bottom-sheet :open='open' @close='close'>
 			<mu-list @itemClick='close'>
-				<mu-list-item title='退出当前账号' @click='userlogout' />
+				<mu-list-item titleClass='logout' title='退出当前账号' @click='userlogout' />
 				<mu-list-item title='取消' />
 			</mu-list>
-		</mu-bottom-sheet>-->
-		<mu-dialog :open='open' title='退出' @close='close'>
+		</mu-bottom-sheet>
+		<!--<mu-dialog :open='open' title='退出' @close='close'>
         	<p>确定退出当前账号?</p>
         	<mu-flat-button slot='actions' @click='close' primary label='取消' />
         	<mu-flat-button slot='actions' @click='userlogout' primary label='确定' />
-        </mu-dialog>
+        </mu-dialog>-->
     </div>
 </template>
 
@@ -121,5 +120,8 @@ export default {
 			margin-left: 5px;
 		}
 	}
+}
+.logout {
+	color: #f44336;
 }
 </style>
