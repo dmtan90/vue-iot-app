@@ -1,5 +1,5 @@
 <template>
-	<div class="devices">
+	<div class="add-device">
 		<!--header-->
 		<mu-appbar title='添加设备' class='header'>
 			<router-link to='/devices' slot='left'>
@@ -53,8 +53,20 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped> 
+<style lang='scss' scoped> 
 .select {
 	text-align: left;
+}
+.add-device {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 200;
+	background-color: #fff;
+	.page-part {
+		padding-top: 62px;
+	}
 }
 </style>

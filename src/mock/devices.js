@@ -5,8 +5,8 @@ const count = 20;
 
 for(let i=0; i< count; i++) {
 	List.push(Mock.mock({
-		deviceName: '@ctitle()',
-		deviceAlias: '@word(4,10)',
+		deviceName: '@string("upper", 10,16)',
+		deviceAlias: '@ctitle(4,10)',
 		status: '0'
 	}));
 }
@@ -17,7 +17,7 @@ export default {
 	},
 	getDevices: () => {
 		return {
-			deviceName: List
+			deviceLists: List
 		}
 	}
 }

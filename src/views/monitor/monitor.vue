@@ -6,7 +6,7 @@
         <!-- popmenu -->
         <mu-popover :open='openMenu' :autoPosition='false' :trigger='trigger' :anchorOrigin="anchorOrigin" :targetOrigin="targetOrigin" @close="handleClose">
         	<mu-menu>
-        		<mu-menu-item title='添加监控点' to='/addmonitor'/>
+        		<mu-menu-item title='添加监控点' to='/monitor/addmonitor' @click='handleClose'/>
         	</mu-menu>
         </mu-popover>
         <mu-table  :showCheckbox='false'>
@@ -25,8 +25,8 @@
         			<mu-td> {{item.unit}} </mu-td>
         			<mu-td class='last'>
         				<!--<mu-flat-button label="查看详情" class="demo-flat-button" primary/>-->
-        				<mu-icon-menu icon="more_vert" tooltip="操作" :anchorOrigin="targetOrigin" :targetOrigin="targetOrigin">
-        					<mu-menu-item title="查看" />
+        				<mu-icon-menu icon="menu" tooltip="操作" :anchorOrigin="targetOrigin" :targetOrigin="targetOrigin">
+        					<mu-menu-item title="查看" @click='getMonitorInfo(item)'/>
         					<mu-menu-item title="删除" @click='handleDelete(item)'/>
         				</mu-icon-menu>
         			</mu-td>
@@ -39,6 +39,9 @@
         	<mu-flat-button slot='actions' @click='closeDelDialog' primary label='取消' />
         	<mu-flat-button slot='actions' @click='delMonitor' primary label='确定' />
         </mu-dialog>
+        <transition name='router-show'>
+        	<router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -63,6 +66,7 @@ export default {
 			fixedHeader: true,
 			dialogVisible: false,
 			temp: {
+				id: -1,
 				monitor: '',
 				device_name: ''
 			}
@@ -106,6 +110,13 @@ export default {
 				}
 			});
 		},
+		getMonitorInfo(value) {
+			this.temp.id = value.id;
+			this.temp.monitor = value.monitor;
+			this.temp.device_name = value.device_name;
+			this.$router.push('/monitor/infor');
+			//this.$router.go(1);
+		},
 		handleDelete(value) {
 			this.dialogVisible = true;
 			this.temp.monitor = value.monitor;
@@ -125,12 +136,21 @@ export default {
 <style scoped> 
 .mu-th,.mu-td {
 	/*border: 1px solid orange;*/
-	height: 50px;
-	padding: 0px;
+	height: 60px;
+	padding: 2px;
 	text-align: center;
 }
 .small {
+	/*overflow: hidden;*/
 	color: lightgray;
 	font-size: 10px;
+	width: 100px;
+	/*border: 1px solid red;*/
+}
+.router-show-enter-active,.router-show-leave-active{
+	transition: all .4s;
+}
+.router-show-enter,.router-show-leave{
+	transform:translateX(100%)
 }
 </style>

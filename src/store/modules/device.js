@@ -49,7 +49,7 @@ const devices = {
 			return new Promise((resolve, reject) => {
 				getDevices().then(response => {
 					console.log(response);
-					const data = response.data.deviceName;
+					const data = response.data.deviceLists;
 					console.log(data);
 					commit('SET_DEVICELIST', data);
 				}).catch(error => {

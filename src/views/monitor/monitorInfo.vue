@@ -1,7 +1,7 @@
 <template>
-	<div class="add-monitor">
+	<div class="monitor-info">
 		<!--header-->
-		<mu-appbar title='添加监控点' class='header'>
+		<mu-appbar title='详细信息' class='header'>
 			<router-link to='/monitor' slot='left'>
 				<mu-icon-button icon='keyboard_arrow_left' style='color: #fff'/>
 			</router-link>
@@ -53,15 +53,15 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang='scss' scoped>
-.add-monitor {
+<style scoped> 
+.monitor-info {
 	position: fixed;
 	top: 0;
 	left: 0;
-	right: 0;
 	bottom: 0;
+	right: 0;
 	z-index: 200;
-	background-color: #fff;
+	background: #ebebeb;
 }
 .select {
 	text-align: left;
