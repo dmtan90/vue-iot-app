@@ -9,7 +9,7 @@
 		<div class="page-part">
 			<mu-text-field label="设备名称" hintText="请输入设备名称" v-model="deviceinfo.device_name"></mu-text-field></br>
 			<mu-text-field label="设备序列号" hintText="请输入设备序列号" v-model="deviceinfo.serial"></mu-text-field></br>
-			<mu-text-field label="设备密码" hintText="请输入设备密码" type="password" v-model="deviceinfo.password"></mu-text-field></br>
+			<!--<mu-text-field label="设备密码" hintText="请输入设备密码" type="password" v-model="deviceinfo.password"></mu-text-field></br>-->
 			<mu-select-field class='select' v-model="deviceGroup" label="请选择设备组">
 				<mu-menu-item v-for='text,index in list' :key='index' :value='index' :title='text' />
 			</mu-select-field>
@@ -43,6 +43,7 @@ export default {
 			console.log(this.deviceinfo);
 			this.$store.dispatch('addDevice', this.deviceinfo).then(() => {
 				console.log('添加设备成功！');
+				this.$store.dispatch('getDevices')
 				this.$router.push({ path: '/devices' });
 			}).catch(err => {
 				console.log('添加设备失败!');

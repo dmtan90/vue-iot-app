@@ -1,24 +1,34 @@
 <template>
-	<div class="add-device">
+	<div class="device-info">
 		<!--header-->
 		<mu-appbar title='设备信息' class='header'>
 			<router-link to='/devices' slot='left'>
 				<mu-icon-button icon='keyboard_arrow_left' style='color: #fff'/>
 			</router-link>
+			<mu-icon-button icon="screen_share" slot="right" ref='button' @click='share'/>
 		</mu-appbar>
 		<div class="page-part">
-			<mu-text-field label="设备名称" hintText="请输入设备名称" v-model="deviceinfo.device_name"></mu-text-field></br>
-			<mu-text-field label="设备序列号" hintText="请输入设备序列号" v-model="deviceinfo.serial"></mu-text-field></br>
-			<mu-text-field label="设备密码" hintText="请输入设备密码" type="password" v-model="deviceinfo.password"></mu-text-field></br>
-			<mu-select-field class='select' v-model="deviceGroup" label="请选择设备组">
-				<mu-menu-item v-for='text,index in list' :key='index' :value='index' :title='text' />
-			</mu-select-field>
+			<div>
+				<p><span>设备名称：</span> {{ deviceInfo.deviceAlias }}</p>
+			</div>
+			<div>
+				<p><span>设备序列号：</span> {{ deviceInfo.deviceName }} </p>
+			</div>
+			<div>
+				<p><span>产品Key：</span> {{ deviceInfo.productKey }} </p>
+			</div>
+			<div>
+				<p><span>设备商：</span> {{ deviceInfo.providerName }} </p>
+			</div>
+			<div>
+				<p><span>使用商：</span> {{ deviceInfo.userName }} </p>
+			</div>
 		</div>
-		<mu-raised-button label="保存" class="demo-raised-button" primary @click='addDevice'/>
     </div>
 </template>
 
 <script>
+import {mapState, mapMutations} from 'vuex'
 export default {
 	data () {
 		return {
@@ -34,11 +44,20 @@ export default {
 	mounted () {
 		
 	},
+	computed:{
+			...mapState([
+			    "deviceInfo"
+			]),
+			
+		},
 	methods: {
 		/*back() {
 			this.$router.go(-1);
 			//this.$router.push({ path: '/devices' });
 		},*/
+		share() {
+			this.$router.push({path: '/devices/share'});
+		},
 		addDevice() {
 			console.log(this.deviceinfo);
 			this.$store.dispatch('addDevice', this.deviceinfo).then(() => {
@@ -57,7 +76,7 @@ export default {
 .select {
 	text-align: left;
 }
-.add-device {
+.device-info {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -66,7 +85,18 @@ export default {
 	z-index: 200;
 	background-color: #fff;
 	.page-part {
-		padding-top: 62px;
+		padding-top: 65px;
+		padding-left: 15px;
+		text-align: left;
+		div p{
+			padding-left: 10px;
+			line-height: 40px;
+			span {
+				display: inline-block;
+				width: 90px;
+				text-align: right;
+			}
+		}
 	}
 }
 </style>

@@ -16,7 +16,7 @@
 export default {
   data () {
     return {
-      selected: 'monitor'
+      //selected: 'monitor'
     }
   },
   /*watch: {
@@ -25,9 +25,19 @@ export default {
       this.$router.push('/'+val);
     }
   },*/
+  computed: {
+    selected() {
+      console.log(this.$store.state.selected);
+      if(this.$store.state.selected) {
+        return this.$store.state.selected;
+      } else {
+        return 'monitor';
+      }
+    }
+  },
   methods: {
     handleChange (val) {
-      this.selected = val;
+      this.$store.state.selected = val;
       this.$router.push('/' + val);
     }
   }

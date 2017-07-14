@@ -23,6 +23,7 @@ const friends = {
 	actions: {
 		//获取用户好友列表
 		getFriends({ commit }) {
+			console.log('getFriends');
 			return new Promise((resolve, reject) => {
 				getFriends().then(response => {
 					console.log(response);

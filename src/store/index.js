@@ -10,10 +10,12 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
+  	selected: 'monitor',
     user,
     friends,
     monitors,
-    devices
+    devices,
+    deviceInfo: {},
   },
   getters
 });

@@ -74,6 +74,7 @@ export default {
 	},
 	created() {
 		this.getMonitorList();
+		this.$store.state.selected = 'monitor';
 	},
 	mounted () {
 		this.trigger = this.$refs.button.$el;

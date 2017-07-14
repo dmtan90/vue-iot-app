@@ -12,19 +12,20 @@
         	</mu-menu>
         </mu-popover>
         <mu-list vlaue='selected'>
-        	<mu-list-item title="我的设备" :open='false' toggleNested>
+        	<mu-list-item v-for='item in deviceLists' :key='item.deviceGroup' :title='item.deviceGroup' :open='false' class='group' toggleNested>
+        	<!--<mu-list-item title="我的设备" :open='false' toggleNested>-->
         		<mu-icon slot='left' value='view_list'></mu-icon>
         		<!--<mu-list-item slot="nested" title="Starred"></mu-list-item>-->
-        		<mu-list-item  v-for='item in deviceList' :key='item.deviceAlias' :title='item.deviceAlias' slot='nested' class='titleStyle'>
+        		<mu-list-item  v-for='sub in item.deviceInformation' :key='sub.deviceAlias' :title='sub.deviceAlias' slot='nested' class='titleStyle'>
         			<mu-icon slot="left" value="cloud_done" color='green'/>
         			<!--<mu-icon slot='right' value='menu'></mu-icon>-->
         			<span slot='describe'>
-        				<span slot='left'>设备序列号：{{item.deviceName}}</span></br>
+        				<span slot='left'>设备序列号：{{sub.deviceName}}</span></br>
         				<span slot='right'>状态：在线</span>
         			</span>
         			<mu-icon-menu slot="right" icon="menu" tooltip="操作">
-        				<mu-menu-item title="查看"  to='/devices/infor'/>
-        				<mu-menu-item title="分享" />
+        				<mu-menu-item title="查看"  to='/devices/infor' @click='getDeviceInfo(sub)'/>
+        				<mu-menu-item title="分享"  to='/devices/share'/>
         				<mu-menu-item title="删除" />
         			</mu-icon-menu>
         		</mu-list-item>
@@ -69,8 +70,8 @@ export default {
 		this.trigger = this.$refs.button.$el;
 	},
 	computed: {
-		deviceList() {
-			return this.$store.state.devices.deviceList;
+		deviceLists() {
+			return this.$store.state.devices.deviceLists;
 		}
 	},
 	methods: {
@@ -96,6 +97,11 @@ export default {
 			console.log(this.group_name);
 			if(this.group_name) {
 			}
+		},
+		//查看设备详细信息
+		getDeviceInfo(value) {
+			console.log(value);
+			this.$store.state.deviceInfo = value;
 		}
 	}
 }

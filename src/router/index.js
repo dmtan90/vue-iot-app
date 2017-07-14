@@ -12,6 +12,7 @@ import usersetting from '@/views/user/settings'
 
 import addDevice from '@/views/device/addDevice'
 import deviceInfo from '@/views/device/deviceInfo'
+import shareDevice from '@/views/device/shareDevice'
 import addMonitor from '@/views/monitor/addMonitor'
 import monitorInfo from '@/views/monitor/monitorInfo'
 
@@ -70,6 +71,11 @@ export default new Router({
                         path: '/devices/infor',
                         name: 'deviceInfo',
                         component: deviceInfo
+                    },
+                    {
+                        path: '/devices/share',
+                        name: 'shareDevice',
+                        component: shareDevice
                     }
                 ]
     		},
@@ -82,6 +88,11 @@ export default new Router({
     			component: usersetting
     		}
     	]
-    }
+    }/*,
+    {
+        path: '/devices/share',
+        name: 'shareDevice',
+        component: shareDevice
+    }*/
   ]
 })
