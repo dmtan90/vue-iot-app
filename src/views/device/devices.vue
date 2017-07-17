@@ -26,16 +26,21 @@
         			<mu-icon-menu slot="right" icon="menu" tooltip="操作">
         				<mu-menu-item title="查看"  to='/devices/infor' @click='getDeviceInfo(sub)'/>
         				<mu-menu-item title="分享"  to='/devices/share'/>
-        				<mu-menu-item title="删除" />
+        				<mu-menu-item title="删除" @click='openDelDialog(sub)'/>
         			</mu-icon-menu>
         		</mu-list-item>
         	</mu-list-item>
         </mu-list>
         <!-- add device group dialog -->
-        <mu-dialog :open='addGroupDialog' title='添加设备分组' @close='closeAddGroup'>
+        <mu-dialog :open='addGroupDialog' title='添加设备分组' @close='closeDialog'>
         	<mu-text-field hintText='新增设备分组名称' v-model='group_name'></mu-text-field>
-        	<mu-flat-button slot='actions' @click='closeAddGroup' primary label='取消' />
+        	<mu-flat-button slot='actions' @click='closeDialog' primary label='取消' />
         	<mu-flat-button slot='actions' @click='addGroupName' primary label='添加' />
+        </mu-dialog>
+        <mu-dialog :open='deleteDialog' title='删除设备' @close='closeDialog'>
+        	<p>确定删除设备: {{deviceInfo.deviceAlias}} ?</p>
+        	<mu-flat-button slot='actions' @click='closeDialog' primary label='取消' />
+        	<mu-flat-button slot='actions' @click='deleteDevice' primary label='删除' />
         </mu-dialog>
         <transition name='router-show'>
         	<router-view></router-view>
@@ -44,6 +49,7 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
 	data () {
 		return {
@@ -58,6 +64,7 @@ export default {
 				horizontal: 'right'
 			},
 			addGroupDialog: false,
+			deleteDialog: false,
 			group_name: '',
 			titleStyle: 'titleStyle'
 		}
@@ -70,6 +77,9 @@ export default {
 		this.trigger = this.$refs.button.$el;
 	},
 	computed: {
+		...mapState([
+			"deviceInfo"
+		]),
 		deviceLists() {
 			return this.$store.state.devices.deviceLists;
 		}
@@ -87,9 +97,10 @@ export default {
 			this.addGroupDialog = true;
 			this.group_name = '';
 		},
-		//关闭添加设备分组对话框
-		closeAddGroup () {
+		//关闭弹框
+		closeDialog () {
 			this.addGroupDialog = false;
+			this.deleteDialog = false;
 		},
 		//添加设备分组
 		addGroupName () {
@@ -102,6 +113,15 @@ export default {
 		getDeviceInfo(value) {
 			console.log(value);
 			this.$store.state.deviceInfo = value;
+		},
+		//打开删除设备对话框
+		openDelDialog(value) {
+			console.log(value);
+			this.$store.state.deviceInfo = value;
+			this.deleteDialog = true;
+		},
+		deleteDevice() {
+			this.deleteDialog = false;
 		}
 	}
 }

@@ -3,6 +3,7 @@
 		<!--header-->
 		<mu-appbar title='分享设备' class='header'>
 			<mu-icon-button icon='clear' style='color: #fff' @click='back' slot='left'/>
+			<mu-flat-button label="确定" slot='right'@click='showShare'/>
 		</mu-appbar>
 		<p>分享设备 HMI1 给好友：{{ friend_id }}</p>
 		<div class="page-part">
@@ -20,10 +21,21 @@
 				</div>
 			</div>
 		</div>
+		 <!-- ensure share dialog -->
+        <mu-dialog :open='shareDialog' title='分享给' @close='cancelShare' scrollable>
+        	</br>
+        	<p>设备：{{deviceInfo.deviceAlias}}</p>
+        	<mu-menu>
+        		<mu-menu-item :title="item" v-for="item, index in friend_id" :key="index"/>
+        	</mu-menu>
+        	<mu-flat-button slot='actions' @click='cancelShare' primary label='取消' />
+        	<mu-flat-button slot='actions' @click='shareDevice' primary label='发送' />
+        </mu-dialog>
     </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
 	data () {
 		return {
@@ -34,7 +46,8 @@ export default {
 			},
 			deviceGroup: 0,
 			list: ['我的设备'],
-			friend_id: []
+			friend_id: [],
+			shareDialog: false
 
 		}
 	},
@@ -46,6 +59,9 @@ export default {
 		
 	},
 	computed: {
+		...mapState([
+			"deviceInfo"
+		]),
 		groups() {
 			return this.$store.state.friends.groups;
 		}
@@ -66,6 +82,16 @@ export default {
 			}).catch(err => {
 				console.log('添加设备失败!');
 			});
+		},
+		showShare() {
+			this.shareDialog = true;
+		},
+		cancelShare() {
+			this.shareDialog = false;
+		},
+		shareDevice() {
+			this.shareDevice = false;
+			this.$router.go(-1);
 		}
 	}
 }

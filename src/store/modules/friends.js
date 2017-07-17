@@ -1,4 +1,4 @@
-import { getFriends } from '@/api/main';
+import { addFriend, getFriends } from '@/api/main';
 
 
 const friends = {
@@ -21,6 +21,19 @@ const friends = {
 	},
 
 	actions: {
+		//添加好友
+		addFriend({ commit }, friendInfo) {
+			console.log('addFriend');
+			return new Promise((resolve, reject) => {
+				addFriend(friendInfo).then(response => {
+					console.log(response);
+					resolve();
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				})
+			})
+		},
 		//获取用户好友列表
 		getFriends({ commit }) {
 			console.log('getFriends');

@@ -71,3 +71,12 @@ export function getFriends() {
 		method: 'get'
 	})
 }
+
+//添加好友
+export function addFriend(data) {
+	return axios({
+		url: '/v1/addfriend',
+		method: 'post',
+		data
+	})
+}

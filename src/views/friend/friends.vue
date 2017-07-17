@@ -8,7 +8,7 @@
         <mu-popover :open='openMenu' :autoPosition='false' :trigger='trigger' :anchorOrigin="anchorOrigin" :targetOrigin="targetOrigin" @close="handleClose">
         	<mu-menu>
         		<mu-menu-item title='添加好友列表' @click='openAddGroup'/>
-        		<mu-menu-item title='添加好友' />
+        		<mu-menu-item title='添加好友' @click='openAddFriend'/>
         	</mu-menu>
         </mu-popover>
         <!--<mu-list>
@@ -22,16 +22,34 @@
         	</mu-list-item>
         </mu-list>-->
         <mu-list>
+        	<mu-list-item title="新的好友" to='/friends/newfriends' class='list-item'>
+        		<mu-icon slot="left" value="person_add"/>
+        	</mu-list-item>
         	<mu-list-item v-for='item in groups' :key='item.group_id' :title='item.group' :open='false' class='group' toggleNested>
-        		<mu-list-item  v-for='sub in item.sub' :key='sub.user_id' :title='sub.user_name' slot='nested'></mu-list-item>
+        		<mu-icon slot="left" value="people"/>
+        		<mu-list-item  v-for='sub in item.sub' :key='sub.user_id' :title='sub.user_name' slot='nested'>
+        			<mu-icon slot="left" value="person"/>
+        		</mu-list-item>
         	</mu-list-item>
         </mu-list>
         <!-- add friend group dialog -->
-        <mu-dialog :open='addGroupDialog' title='添加好友列表' @close='closeAddGroup'>
+        <mu-dialog :open='showAddFriend' title='添加好友' @close='closeDialog'>
+        	<mu-text-field hintText='请输入好友用户名' v-model='friendInfo.friendName'></mu-text-field>
+        	<mu-select-field v-model='friendInfo.userType' label='请选择好友用户类型' >
+        		<mu-menu-item value='producter' title='生产设备厂商'/>
+        		<mu-menu-item value='user' title='用户'/>
+        	</mu-select-field><br/>
+        	<mu-flat-button slot='actions' @click='closeDialog' primary label='取消' />
+        	<mu-flat-button slot='actions' @click='addFriend' primary label='添加' />
+        </mu-dialog>
+        <mu-dialog :open='showAddGroup' title='添加好友列表' @close='closeDialog'>
         	<mu-text-field hintText='新增好友分组名称' v-model='group_name'></mu-text-field>
-        	<mu-flat-button slot='actions' @click='closeAddGroup' primary label='取消' />
+        	<mu-flat-button slot='actions' @click='closeDialog' primary label='取消' />
         	<mu-flat-button slot='actions' @click='addGroupName' primary label='添加' />
         </mu-dialog>
+        <transition name='router-show'>
+        	<router-view></router-view>
+        </transition>
     </div>
 </template>
 
@@ -53,8 +71,13 @@ export default {
 			},
 			//groups:[]
 			//add friend group
-			addGroupDialog: false,
+			friendInfo: {
+				friendName: '',
+				userType: 'user'
+			},
 			group_name: '',
+			showAddGroup: false,
+			showAddFriend: false
 		}
 	},
 	created () {
@@ -87,16 +110,12 @@ export default {
 		},
 		//打开好友分组对话框
 		openAddGroup () {
-			this.addGroupDialog = true;
+			this.showAddGroup = true;
 			this.group_name = '';
-		},
-		//关闭添加好友分组对话框
-		closeAddGroup () {
-			this.addGroupDialog = false;
 		},
 		//添加好友分组
 		addGroupName () {
-			this.addGroupDialog = false;
+			this.showAddGroup = false;
 			console.log(this.group_name);
 			if(this.group_name) {
 				let groups = this.$store.state.friends.groups;
@@ -104,6 +123,25 @@ export default {
 					console.log(groups[i].group);
 				}
 			}
+		},
+		closeDialog() {
+			this.showAddGroup = false;
+			this.showAddFriend = false;
+		},
+		//添加好友
+		openAddFriend() {
+			this.showAddFriend = true;
+		},
+		addFriend() {
+			this.showAddFriend = false;
+			console.log(this.friendInfo);
+			this.$store.dispatch('addFriend', this.friendInfo).then(() => {
+				console.log('添加好友成功！');
+				this.$store.dispatch('getFriends')
+				this.$router.push({ path: '/friends' });
+			}).catch(err => {
+				console.log('添加好友失败!');
+			});
 		}
 
 	}
@@ -112,8 +150,20 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped> 
+<style lang='scss' scoped> 
 /*.group {
 	background: #e1f5fe;
 }*/
+.router-show-enter-active,.router-show-leave-active{
+	transition: all .4s;
+}
+.router-show-enter,.router-show-leave{
+	transform:translateX(100%)
+}
+.friends {
+	margin: 0 5px;
+	.list-item {
+		border-bottom: 1px solid lightgray;
+	}
+}
 </style>

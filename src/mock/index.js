@@ -14,6 +14,7 @@ Mock.mock(/\/v1\/user_information/, 'get', loginAPI.getUserinfo)
 Mock.mock(/\/v1\/monitor/, 'get', monitorAPI.getMonitorList)
 
 //获取好友列表
+Mock.mock(/\/v1\/addfriend/, 'post', friendAPI.addFriend)
 Mock.mock(/\/v1\/friends/, 'get', friendAPI.getFriends)
 
 //注册设备

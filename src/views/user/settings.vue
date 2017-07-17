@@ -4,7 +4,7 @@
 		<mu-appbar title="个人设置" class='header'></mu-appbar>
 		<mu-list>
 			<mu-list-item :title='userinfo.name' disabled>
-				<mu-avatar slot='leftAvatar' src="../../assets/logo.png" :iconSize='40'/>
+				<mu-avatar slot='leftAvatar' src="imgUrl" :iconSize='40'/>
 			</mu-list-item>
 		</mu-list>
 		<ul class='userinfo'>
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import logo from '../../assets/logo.png'
 export default {
 	created() {
 		this.$store.dispatch('getUserinfo')
@@ -64,7 +65,8 @@ export default {
 				country: '',
 				province: ''
 			},*/
-			open: false
+			open: false,
+			imgUrl: logo
 		}
 	},
 	computed: {
@@ -84,12 +86,14 @@ export default {
 		userlogout() {
 			this.$router.push({ path: '/' });
 			console.log(this.$store.state.user.name)
+
 		},
 		close () {
 			this.open = false;
 		},
 		showlogout() {
 			this.open = true;
+			console.log(this.imgUrl);
 		}
 	}
 }

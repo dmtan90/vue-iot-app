@@ -16,6 +16,9 @@ for(let i=0; i< count; i++) {
 }
 
 export default {
+	addFriend: () => {
+		return 'success';
+	},
 	getFriends: () => {
 		return {
 			friends: [

@@ -15,6 +15,7 @@ import deviceInfo from '@/views/device/deviceInfo'
 import shareDevice from '@/views/device/shareDevice'
 import addMonitor from '@/views/monitor/addMonitor'
 import monitorInfo from '@/views/monitor/monitorInfo'
+import newFriends from '@/views/friend/newFriends'
 
 Vue.use(Router)
 
@@ -81,7 +82,14 @@ export default new Router({
     		},
     		{
     			path: '/friends',
-    			component: friends
+    			component: friends,
+                children: [
+                    {
+                        path: '/friends/newfriends',
+                        name: 'newFriends',
+                        component: newFriends
+                    }
+                ]
     		},
     		{
     			path: '/settings',
