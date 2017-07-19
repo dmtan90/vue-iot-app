@@ -31,6 +31,9 @@ export default {
 	addDevice: () => {
 		return 'success';
 	},
+	shareDevice: () => {
+		return 'success';
+	},
 	getDevices: () => {
 		return {
 			deviceLists: [

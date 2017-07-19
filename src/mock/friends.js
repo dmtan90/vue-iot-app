@@ -2,7 +2,11 @@ import Mock from 'mockjs'
 
 const List1 = [];
 const List2 = [];
-const count = 10;
+const List = [];
+const unreceivedList = [];
+const unconfirmedList = [];
+const count = 20;
+const count1 = 5;
 
 for(let i=0; i< count; i++) {
 	List1.push(Mock.mock({
@@ -13,13 +17,27 @@ for(let i=0; i< count; i++) {
 		user_id: '@id',
 		user_name: '@cname',
 	}));
+	List.push(Mock.mock({
+		friendName: '@cname',
+		userType: 'user',
+	}));
+}
+for(let i=0; i< count1; i++) {
+	unreceivedList.push(Mock.mock({
+		friendName: '@cname',
+		userType: 'user',
+	}));
+	unconfirmedList.push(Mock.mock({
+		friendName: '@cname',
+		userType: 'user',
+	}));
 }
 
 export default {
 	addFriend: () => {
 		return 'success';
 	},
-	getFriends: () => {
+	/*getFriends: () => {
 		return {
 			friends: [
 			{
@@ -36,5 +54,23 @@ export default {
 			}
 			]
 		}
+	}*/
+	getFriends: () => {
+		return {
+			friendList: List
+		}
+	},
+	getUnreceivedList: () => {
+		return {
+			unreceivedFriendlist: unreceivedList
+		}
+	},
+	getUnconfirmedList: () => {
+		return {
+			unconfirmedFriendlist: unconfirmedList
+		}
+	},
+	receiveFriend: () => {
+		return 'success';
 	}
 }

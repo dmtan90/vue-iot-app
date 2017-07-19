@@ -10,15 +10,25 @@
 		<div class="page-part">
 			<mu-tabs :value="activeTab" @change="handleTabChange" class='tabs' >
 				<mu-tab value="tab1" title="好友请求" />
-				<mu-tab value="tab2" title="待好友确认" />
+				<mu-tab value="tab2" title="添加好友" />
 			</mu-tabs>
 			<div v-if="activeTab === 'tab1'">
-				<h2>Tab One</h2>
-				<p>这是第一个 tab</p>
+				<mu-list-item  v-for='sub in unreceivedList' :key='sub.friendName' :title='sub.friendName' slot='nested'>
+        			<mu-icon slot="left" value="person"/>
+        			<span slot='describe'>
+        				<span slot='left'>用户类型：{{sub.userType}} </span></br>
+        				<span slot='left'>请求添加你为好友</span>
+        			</span>
+        			<mu-raised-button slot='right' label="接受" class="receive-btn" primary @click='receiveFriend(sub.friendName, sub.userType)'/>
+        		</mu-list-item>
 			</div>
 			<div v-if="activeTab === 'tab2'">
-				<h2>Tab Two</h2>
-				<p>这是第二个 tab</p>
+				<mu-list-item  v-for='sub in unconfirmedList' :key='sub.friendName' :title='sub.friendName' slot='nested'>
+        			<mu-icon slot="left" value="person"/>
+        			<span slot='describe'>
+        				<span slot='left'>添加<span> {{sub.friendName}} </span>为好友, 等待对方确认</span>
+        			</span>
+        		</mu-list-item>
 			</div>
 		</div>
     </div>
@@ -29,32 +39,33 @@
 export default {
     data () {
 		return {
-			//add friend group
-			addGroupDialog: false,
-			group_name: '',
 			activeTab: 'tab1'
 		}
 	},
 	created () {
-		this.$store.dispatch('getFriends')
-		//this.fetchData();
+		this.$store.dispatch('getUnconfirmedList');
 	},
 	computed: {
-		/*fetchData () {
-			this.$store.dispatch('getFriends').then(() => {
-				console.log('getFriends');
-				this.groups = this.$store.state.friends.groups;
-			}).catch(err => {
-				console.log('error');
-			});
-		}*/
-		groups() {
-			return this.$store.state.friends.groups;
+		unreceivedList() {
+			return this.$store.state.friends.unreceivedList;
+		},
+		unconfirmedList() {
+			return this.$store.state.friends.unconfirmedList;
 		}
 	},
 	methods: {
 		handleTabChange(val) {
 			this.activeTab = val;
+		},
+		receiveFriend(name, type) {
+			var data = '{ "userName": "' + name + '", "userType": "' +  type + ' "}'; 
+			this.$store.dispatch('receiveFriend', data).then(() => {
+				console.log('添加好友成功');
+				this.$store.dispatch('getDevices');
+				this.$store.dispatch('getUnreceivedList');
+			}).catch(err => {
+				console.log('添加好友失败');
+			})
 		}
 	}
 }
@@ -76,8 +87,15 @@ export default {
 	background-color: #fff;
 	.page-part {
 		padding-top: 60px;
+		text-align: left;
 		.tabs {
 			background-color: #fff;
+		}
+		.receive-btn {
+			margin-right: 20px;
+		}
+		.friend-name {
+			color: #2196f3;
 		}
 	}
 }
@@ -88,4 +106,5 @@ export default {
 .mu-tab-active {
 	color: #2196f3;
 }
+
 </style>

@@ -1,4 +1,4 @@
-import { addDevice, getDevices } from '@/api/main';
+import { addDevice, getDevices, shareDevice } from '@/api/main';
 
 const devices = {
 	state: {
@@ -66,13 +66,25 @@ const devices = {
 					const data = response.data.deviceLists;
 					console.log(data);
 					commit('SET_DEVICELIST', data);
+					resolve();
+				}).catch(error => {
+					console.log(error);
+					reject(error);
+				})
+			})
+		},
+		//分享设备
+		shareDevice({commit}, data) {
+			return new Promise((resolve, reject) => {
+				shareDevice(data).then(response => {
+					console.log(response);
+					resolve();
 				}).catch(error => {
 					console.log(error);
 					reject(error);
 				})
 			})
 		}
-
 	}
 };
 

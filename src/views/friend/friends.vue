@@ -7,8 +7,8 @@
         <!-- popmenu -->
         <mu-popover :open='openMenu' :autoPosition='false' :trigger='trigger' :anchorOrigin="anchorOrigin" :targetOrigin="targetOrigin" @close="handleClose">
         	<mu-menu>
-        		<mu-menu-item title='添加好友列表' @click='openAddGroup'/>
-        		<mu-menu-item title='添加好友' @click='openAddFriend'/>
+        		<mu-menu-item title='添加好友列表' @click='openAddGroup' leftIcon="group_add"/>
+        		<mu-menu-item title='添加好友' @click='openAddFriend' leftIcon="person_add"/>
         	</mu-menu>
         </mu-popover>
         <!--<mu-list>
@@ -22,12 +22,18 @@
         	</mu-list-item>
         </mu-list>-->
         <mu-list>
-        	<mu-list-item title="新的好友" to='/friends/newfriends' class='list-item'>
+        	<mu-list-item title="新的好友" to='/friends/newfriends' class='list-item' @click='getNewFriends'>
         		<mu-icon slot="left" value="person_add"/>
         	</mu-list-item>
-        	<mu-list-item v-for='item in groups' :key='item.group_id' :title='item.group' :open='false' class='group' toggleNested>
+        	<!--<mu-list-item v-for='item in groups' :key='item.group_id' :title='item.group' :open='false' class='group' toggleNested>
         		<mu-icon slot="left" value="people"/>
         		<mu-list-item  v-for='sub in item.sub' :key='sub.user_id' :title='sub.user_name' slot='nested'>
+        			<mu-icon slot="left" value="person"/>
+        		</mu-list-item>
+        	</mu-list-item>-->
+        	<mu-list-item title="我的好友" toggleNested>
+        		<mu-icon slot="left" value="people"/>
+        		<mu-list-item  v-for='sub in friendList' :key='sub.friendName' :title='sub.friendName' slot='nested'>
         			<mu-icon slot="left" value="person"/>
         		</mu-list-item>
         	</mu-list-item>
@@ -96,8 +102,11 @@ export default {
 				console.log('error');
 			});
 		}*/
-		groups() {
+		/*groups() {
 			return this.$store.state.friends.groups;
+		}*/
+		friendList() {
+			return this.$store.state.friends.friendList;
 		}
 	},
 	methods: {
@@ -142,6 +151,9 @@ export default {
 			}).catch(err => {
 				console.log('添加好友失败!');
 			});
+		},
+		getNewFriends() {
+			this.$store.dispatch('getUnreceivedList');
 		}
 
 	}

@@ -15,10 +15,14 @@ Mock.mock(/\/v1\/monitor/, 'get', monitorAPI.getMonitorList)
 
 //获取好友列表
 Mock.mock(/\/v1\/addfriend/, 'post', friendAPI.addFriend)
-Mock.mock(/\/v1\/friends/, 'get', friendAPI.getFriends)
+Mock.mock(/\/v1\/friendlist/, 'get', friendAPI.getFriends)
+Mock.mock(/\/v1\/unreceived_friendlist/, 'get', friendAPI.getUnreceivedList)
+Mock.mock(/\/v1\/unconfirmed_friendlist/, 'get', friendAPI.getUnconfirmedList)
+Mock.mock(/\/v1\/receivefriend/, 'post', friendAPI.receiveFriend)
 
 //注册设备
 Mock.mock(/\/v1\/register_devices/, 'post', deviceAPI.addDevice)
 Mock.mock(/\/v1\/devices/, 'get', deviceAPI.getDevices)
+Mock.mock(/\/v1\/sharedevice/, 'post', deviceAPI.shareDevice)
 
 export default Mock;

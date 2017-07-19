@@ -63,11 +63,19 @@ export function getDevices(token) {
 		params: { token }
 	});
 }
+//分享设备
+export function shareDevice(data) {
+	return axios({
+		url: '/v1/sharedevice',
+		method: 'post',
+		data
+	})
+}
 
 /* 获取好友列表信息 */
 export function getFriends() {
 	return axios({
-		url: '/v1/friends',
+		url: '/v1/friendlist',
 		method: 'get'
 	})
 }
@@ -76,6 +84,30 @@ export function getFriends() {
 export function addFriend(data) {
 	return axios({
 		url: '/v1/addfriend',
+		method: 'post',
+		data
+	})
+}
+
+//获取待接受好友列表
+export function getUnreceivedList() {
+	return axios({
+		url: '/v1/unreceived_friendlist',
+		method: 'get'
+	})
+}
+
+//获取待对方确认的好友列表
+export function getUnconfirmedList() {
+	return axios({
+		url: '/v1/unconfirmed_friendlist',
+		method: 'get'
+	})
+}
+//接受好友请求
+export function receiveFriend(data) {
+	return axios({
+		url: '/v1/receivefriend',
 		method: 'post',
 		data
 	})

@@ -5,7 +5,7 @@
 			<mu-icon-button icon='clear' style='color: #fff' @click='back' slot='left'/>
 			<mu-flat-button label="确定" slot='right'@click='showShare'/>
 		</mu-appbar>
-		<p>分享设备 HMI1 给好友：{{ friend_id }}</p>
+		<p>分享设备<router-link class="device-name" to='/devices/infor'> {{deviceInfo.deviceAlias}} </router-link>给好友: </p>
 		<div class="page-part">
 			
 			<!--<mu-list v-for='item in groups'>
@@ -14,11 +14,14 @@
 					<mu-checkbox v-model="friend_id" slot="left"/>
 				</mu-list-item>
 			</mu-list>-->
-			<div v-for='item in groups' :key='item.group_id'>
+			<!--<div v-for='item in groups' :key='item.group_id'>
 				<mu-sub-header>{{ item.group }}</mu-sub-header>
 				<div v-for='sub in item.sub' :key='sub.user_name'>
 					<mu-checkbox :name="item.group" :nativeValue="sub.user_name" v-model="friend_id" :label="sub.user_name" class="demo-checkbox"/> <br/>
 				</div>
+			</div>-->
+			<div v-for='item in friendList' :key='item.friendName'>
+				<mu-checkbox :name="item.friendName" :nativeValue="item.friendName" v-model="friend_id" :label="item.friendName" class="demo-checkbox"/> <br/>
 			</div>
 		</div>
 		 <!-- ensure share dialog -->
@@ -62,8 +65,8 @@ export default {
 		...mapState([
 			"deviceInfo"
 		]),
-		groups() {
-			return this.$store.state.friends.groups;
+		friendList() {
+			return this.$store.state.friends.friendList;
 		}
 	},
 	methods: {
@@ -92,6 +95,22 @@ export default {
 		shareDevice() {
 			this.shareDevice = false;
 			this.$router.go(-1);
+			var data = '{ "deviceIdList" : [ "' + this.$store.state.deviceInfo.deviceId + '" ], "besharedFriendlist" : [ ';
+			for(var i=0, len=this.friend_id.length; i<len; i++) {
+				var temp = '{ "beSharedUserName" : "' + this.friend_id[i] + '", "beSharedUserType": "user" }';
+				console.log(temp);
+				if(i > 0) {
+					data += ','
+				}
+				data += temp;
+			}
+			data += '] }';
+			this.$store.dispatch('shareDevice', data).then(() => {
+				console.log('分享设备成功！');
+				this.$store.dispatch('getDevices')
+			}).catch(err => {
+				console.log('分享设备失败');
+			})
 		}
 	}
 }
@@ -125,7 +144,7 @@ export default {
 	}
 	.page-part {
 		position: absolute;
-		padding-top: 10px;
+		padding-top: 100px;
 		top: 10px;
 		left: 0;
 		right: 0;
@@ -136,6 +155,9 @@ export default {
 		margin-bottom: 1px;
 		overflow: scroll;
 		//border: 1px solid red;
+	}
+	.device-name {
+		color: #2196f3;
 	}
 }
 </style>

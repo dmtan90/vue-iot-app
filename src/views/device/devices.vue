@@ -25,7 +25,7 @@
         			</span>
         			<mu-icon-menu slot="right" icon="menu" tooltip="操作">
         				<mu-menu-item title="查看"  to='/devices/infor' @click='getDeviceInfo(sub)'/>
-        				<mu-menu-item title="分享"  to='/devices/share'/>
+        				<mu-menu-item title="分享"  to='/devices/share' @click='shareDevice(sub)'/>
         				<mu-menu-item title="删除" @click='openDelDialog(sub)'/>
         			</mu-icon-menu>
         		</mu-list-item>
@@ -112,6 +112,10 @@ export default {
 		//查看设备详细信息
 		getDeviceInfo(value) {
 			console.log(value);
+			this.$store.state.deviceInfo = value;
+		},
+		//分享设备给好友
+		shareDevice(value) {
 			this.$store.state.deviceInfo = value;
 		},
 		//打开删除设备对话框
